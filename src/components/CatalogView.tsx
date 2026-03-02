@@ -47,7 +47,7 @@ const CatalogView = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {filtered.map((p, i) => (
           <motion.div key={p.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-            className="bg-card rounded-xl shadow-card overflow-hidden group cursor-pointer hover:shadow-card-hover transition-shadow duration-300"
+            className="bg-card rounded-2xl shadow-card overflow-hidden group cursor-pointer hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 border border-border/50"
             onClick={() => setSelectedProduct(p)}>
             <div className="h-44 overflow-hidden bg-muted">
               <img src={p.image || '/placeholder.svg'} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -56,7 +56,7 @@ const CatalogView = () => {
               <h3 className="font-semibold text-foreground text-sm line-clamp-1">{p.name}</h3>
               <p className="text-xs text-muted-foreground mt-1">{catName(p.categoryId)} · {brandName(p.brandId)}</p>
               <a href={buildWhatsAppUrl(p, categories, brands)} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                className="mt-3 flex items-center justify-center gap-2 w-full py-2 rounded-lg text-xs font-semibold bg-success text-success-foreground hover:opacity-90 transition-opacity">
+                className="mt-3 flex items-center justify-center gap-2 w-full py-2 rounded-xl text-xs font-semibold bg-success text-success-foreground hover:opacity-90 transition-opacity">
                 <MessageCircle className="w-3.5 h-3.5" /> Consultar por WhatsApp
               </a>
             </div>
@@ -82,7 +82,7 @@ const CatalogView = () => {
                   <p className="text-xs text-muted-foreground"><strong>Marca:</strong> {brandName(selectedProduct.brandId)}</p>
                 </div>
                 <a href={buildWhatsAppUrl(selectedProduct, categories, brands)} target="_blank" rel="noopener noreferrer"
-                  className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-lg font-semibold bg-success text-success-foreground hover:opacity-90 transition-opacity">
+                  className="mt-4 flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold bg-success text-success-foreground hover:opacity-90 transition-opacity">
                   <MessageCircle className="w-4 h-4" /> Consultar por WhatsApp
                 </a>
               </div>

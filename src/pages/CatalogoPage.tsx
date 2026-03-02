@@ -26,7 +26,7 @@ const CatalogoPage = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-display font-bold text-foreground">Catálogo de Productos</h1>
+          <h1 className="text-2xl font-display font-bold text-foreground">🎒 Catálogo de Productos</h1>
           <p className="text-muted-foreground mt-1">Explorá nuestra línea de útiles escolares facilitadores para el aprendizaje</p>
         </div>
         <CatalogView />

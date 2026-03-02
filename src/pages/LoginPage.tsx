@@ -66,14 +66,7 @@ const LoginPage = () => {
             </Button>
           </form>
 
-          <div className="mt-8 p-4 rounded-lg bg-muted">
-            <p className="text-xs font-semibold text-muted-foreground mb-2">Usuarios de prueba:</p>
-            <div className="space-y-1 text-xs text-muted-foreground">
-              <p><span className="font-medium text-foreground">Admin:</span> admin@demo.com / 123456</p>
-              <p><span className="font-medium text-foreground">Vendedor:</span> vendedor@demo.com / 123456</p>
-              <p><span className="font-medium text-foreground">Comprador:</span> comprador@demo.com / 123456</p>
-            </div>
-          </div>
+        
         </motion.div>
       </div>
     </div>

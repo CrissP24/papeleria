@@ -31,7 +31,7 @@ const PublicCatalogPage = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-display font-bold text-foreground">Catálogo de Productos</h1>
+          <h1 className="text-2xl font-display font-bold text-foreground">🎒 Catálogo de Productos</h1>
           <p className="text-muted-foreground mt-1">Explorá nuestra línea de útiles escolares facilitadores para el aprendizaje</p>
         </div>
         <CatalogView />
@@ -39,7 +39,7 @@ const PublicCatalogPage = () => {
 
       <footer className="bg-muted border-t py-6 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-sm text-muted-foreground">© 2026 Creciendo con Catalina. Todos los derechos reservados.</p>
+          <p className="text-sm text-muted-foreground">🌸 © 2026 Creciendo con Catalina. Todos los derechos reservados. 🌸</p>
         </div>
       </footer>
     </div>

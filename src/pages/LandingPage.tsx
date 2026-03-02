@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, Phone, ArrowRight, Heart, GraduationCap, Sparkles, Clock } from 'lucide-react';
+import { BookOpen, Users, Phone, ArrowRight, Heart, GraduationCap, Sparkles, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 
 const LandingPage = () => {
   const features = [
-    { icon: <BookOpen className="w-6 h-6" />, title: 'Útiles Facilitadores', desc: 'Productos pensados para facilitar e incluir el aprendizaje de todos los niños.' },
-    { icon: <Heart className="w-6 h-6" />, title: 'Hecho con Amor', desc: 'Cada producto seleccionado con cariño y propósito educativo.' },
-    { icon: <GraduationCap className="w-6 h-6" />, title: 'Aprendizaje Inclusivo', desc: 'Herramientas para potenciar el desarrollo en el aula, consultorio y casa.' },
-    { icon: <Sparkles className="w-6 h-6" />, title: 'Atención Personalizada', desc: 'Consultá por WhatsApp y te asesoramos con lo que necesites.' },
+    { icon: <BookOpen className="w-6 h-6" />, title: 'Útiles Facilitadores', desc: 'Productos pensados para facilitar e incluir el aprendizaje de todos los niños.', emoji: '✏️' },
+    { icon: <Heart className="w-6 h-6" />, title: 'Hecho con Amor', desc: 'Cada producto seleccionado con cariño y propósito educativo.', emoji: '💜' },
+    { icon: <GraduationCap className="w-6 h-6" />, title: 'Aprendizaje Inclusivo', desc: 'Herramientas para potenciar el desarrollo en el aula, consultorio y casa.', emoji: '🌟' },
+    { icon: <Sparkles className="w-6 h-6" />, title: 'Atención Personalizada', desc: 'Consultá por WhatsApp y te asesoramos con lo que necesites.', emoji: '✨' },
   ];
 
   return (
@@ -38,9 +38,17 @@ const LandingPage = () => {
       </header>
 
       {/* Hero */}
-      <section className="gradient-primary py-20 lg:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="gradient-primary py-20 lg:py-32 relative overflow-hidden">
+        {/* Decorative floating elements */}
+        <div className="absolute top-10 right-10 text-5xl opacity-20 animate-bounce" style={{animationDuration: '3s'}}>✏️</div>
+        <div className="absolute bottom-16 right-1/4 text-4xl opacity-15 animate-bounce" style={{animationDuration: '4s', animationDelay: '1s'}}>📚</div>
+        <div className="absolute top-1/3 right-16 text-3xl opacity-15 animate-bounce" style={{animationDuration: '3.5s', animationDelay: '0.5s'}}>🎨</div>
+        <div className="absolute bottom-10 left-1/3 text-4xl opacity-10 animate-bounce" style={{animationDuration: '4.5s', animationDelay: '2s'}}>⭐</div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6 text-sm text-primary-foreground/90">
+              <span>🌸</span> Papelería escolar con propósito
+            </div>
             <h1 className="text-4xl lg:text-5xl font-display font-bold text-primary-foreground leading-tight">
               Útiles escolares que acompañan el aprendizaje 🌱
             </h1>
@@ -65,18 +73,27 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Decorative wave divider */}
+      <div className="relative -mt-1">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0 30C240 60 480 0 720 30C960 60 1200 0 1440 30V60H0V30Z" fill="hsl(330 30% 98%)" />
+        </svg>
+      </div>
+
       {/* Features */}
       <section className="py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
+            <span className="text-3xl mb-3 block">✨</span>
             <h2 className="text-2xl lg:text-3xl font-display font-bold text-foreground">¿Por qué elegirnos?</h2>
             <p className="mt-2 text-muted-foreground">Herramientas pensadas para facilitar, incluir y potenciar el desarrollo</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-xl p-6 shadow-card text-center hover:shadow-card-hover transition-shadow">
-                <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center mx-auto mb-4 text-accent-foreground">
+                className="bg-card rounded-2xl p-6 shadow-card text-center hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 border border-border/50">
+                <div className="text-3xl mb-3">{f.emoji}</div>
+                <div className="w-12 h-12 rounded-2xl gradient-accent flex items-center justify-center mx-auto mb-4 text-accent-foreground">
                   {f.icon}
                 </div>
                 <h3 className="font-semibold text-foreground">{f.title}</h3>
@@ -88,10 +105,11 @@ const LandingPage = () => {
       </section>
 
       {/* About */}
-      <section id="nosotros" className="py-16 lg:py-24 bg-muted/50">
+      <section id="nosotros" className="py-16 lg:py-24 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
+              <span className="text-3xl mb-3 block">🌸</span>
               <h2 className="text-2xl lg:text-3xl font-display font-bold text-foreground">Nuestra Historia</h2>
               <p className="mt-4 text-muted-foreground leading-relaxed">
                 <strong>Creciendo con Catalina</strong> es un emprendimiento que nace desde la experiencia y el deseo 
@@ -104,7 +122,9 @@ const LandingPage = () => {
                 necesidades de cada niño y su camino de aprendizaje.
               </p>
             </div>
-            <div className="gradient-primary rounded-2xl p-8 text-center">
+            <div className="gradient-primary rounded-3xl p-8 text-center relative overflow-hidden">
+              <div className="absolute top-3 right-3 text-2xl opacity-20">🌸</div>
+              <div className="absolute bottom-3 left-3 text-2xl opacity-20">✨</div>
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <p className="text-4xl font-display font-bold text-accent">🌱</p>
@@ -131,6 +151,7 @@ const LandingPage = () => {
       {/* CTA */}
       <section className="py-16 lg:py-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <span className="text-4xl mb-4 block">🎒</span>
           <h2 className="text-2xl lg:text-3xl font-display font-bold text-foreground">¿Querés ver nuestros productos?</h2>
           <p className="mt-3 text-muted-foreground">Explorá nuestro catálogo de útiles escolares facilitadores y consultá por WhatsApp.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
@@ -149,36 +170,38 @@ const LandingPage = () => {
       </section>
 
       {/* Contact */}
-      <section id="contacto" className="py-16 lg:py-24 gradient-primary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section id="contacto" className="py-16 lg:py-24 gradient-primary relative overflow-hidden">
+        <div className="absolute top-6 left-10 text-4xl opacity-10">💌</div>
+        <div className="absolute bottom-8 right-12 text-3xl opacity-10">📝</div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <div className="text-center">
             <h2 className="text-2xl lg:text-3xl font-display font-bold text-primary-foreground">Contacto</h2>
             <p className="mt-2 text-primary-foreground/70">Estamos para ayudarte</p>
           </div>
           <div className="mt-10 grid sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
-            <a href="https://wa.me/c/5493584015546" target="_blank" rel="noopener noreferrer" className="bg-sidebar-accent rounded-xl p-6 text-center hover:opacity-90 transition-opacity">
-              <Phone className="w-6 h-6 mx-auto text-accent mb-3" />
-              <p className="text-sm text-sidebar-foreground font-medium">WhatsApp</p>
-              <p className="text-xs text-sidebar-foreground/70 mt-1">+54 9 358 401-5546</p>
+            <a href="https://wa.me/c/5493584015546" target="_blank" rel="noopener noreferrer" className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 text-center hover:bg-white/30 transition-all duration-300 hover:-translate-y-1">
+              <Phone className="w-6 h-6 mx-auto text-white mb-3" />
+              <p className="text-sm text-primary-foreground font-medium">WhatsApp</p>
+              <p className="text-xs text-primary-foreground/70 mt-1">+54 9 358 401-5546</p>
             </a>
-            <div className="bg-sidebar-accent rounded-xl p-6 text-center">
-              <Users className="w-6 h-6 mx-auto text-accent mb-3" />
-              <p className="text-sm text-sidebar-foreground font-medium">Redes Sociales</p>
-              <p className="text-xs text-sidebar-foreground/70 mt-1">@creciendoconcatalina</p>
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 text-center">
+              <Users className="w-6 h-6 mx-auto text-white mb-3" />
+              <p className="text-sm text-primary-foreground font-medium">Redes Sociales</p>
+              <p className="text-xs text-primary-foreground/70 mt-1">@creciendoconcatalina</p>
             </div>
-            <div className="bg-sidebar-accent rounded-xl p-6 text-center">
-              <Clock className="w-6 h-6 mx-auto text-accent mb-3" />
-              <p className="text-sm text-sidebar-foreground font-medium">Horario</p>
-              <p className="text-xs text-sidebar-foreground/70 mt-1">Lun-Vie 9 a 18hs</p>
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 text-center">
+              <Clock className="w-6 h-6 mx-auto text-white mb-3" />
+              <p className="text-sm text-primary-foreground font-medium">Horario</p>
+              <p className="text-xs text-primary-foreground/70 mt-1">Lun-Vie 9 a 18hs</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-foreground py-8">
+      <footer className="bg-muted py-8 border-t">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-sm text-background/60">© 2026 Creciendo con Catalina. Todos los derechos reservados.</p>
+          <p className="text-sm text-muted-foreground">🌸 © 2026 Creciendo con Catalina. Todos los derechos reservados. 🌸</p>
         </div>
       </footer>
     </div>
