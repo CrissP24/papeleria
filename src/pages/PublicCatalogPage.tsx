@@ -11,7 +11,7 @@ const PublicCatalogPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link to="/" className="flex items-center gap-3">
-              <span className="text-2xl">🌱</span>
+              <img src="/logo.jpeg" alt="Creciendo con Catalina" className="h-9 w-9 rounded-full object-cover shadow-sm border-2 border-primary/20" />
               <span className="font-display font-bold text-foreground text-lg">Creciendo con Catalina</span>
             </Link>
           </div>
@@ -39,7 +39,11 @@ const PublicCatalogPage = () => {
 
       <footer className="bg-muted border-t py-6 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-sm text-muted-foreground">🌸 © 2026 Creciendo con Catalina. Todos los derechos reservados. 🌸</p>
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <img src="/logo.jpeg" alt="" className="w-5 h-5 rounded-full object-cover" />
+            <span className="font-display font-semibold text-sm text-foreground">Creciendo con Catalina</span>
+          </div>
+          <p className="text-xs text-muted-foreground">© 2026 Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>

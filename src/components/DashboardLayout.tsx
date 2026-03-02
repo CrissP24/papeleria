@@ -34,7 +34,7 @@ const DashboardLayout = ({ children, navItems, title }: DashboardLayoutProps) =>
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-6 flex items-center gap-3">
-          <span className="text-2xl">🌱</span>
+          <img src="/logo.jpeg" alt="Creciendo con Catalina" className="h-9 w-9 rounded-full object-cover shadow-sm border-2 border-white/30" />
           <span className="font-display font-bold text-primary-foreground text-lg">Creciendo con Catalina</span>
         </div>
 

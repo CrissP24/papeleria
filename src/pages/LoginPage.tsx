@@ -31,8 +31,7 @@ const LoginPage = () => {
     <div className="min-h-screen flex">
       <div className="hidden lg:flex lg:w-1/2 gradient-primary items-center justify-center p-12">
         <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="text-center">
-          <img src="" alt="" className="w-32 h-auto mx-auto mb-8 hidden" />
-          <span className="text-6xl block mb-8">🌱</span>
+          <img src="/logo.jpeg" alt="Creciendo con Catalina" className="w-28 h-28 rounded-full object-cover mx-auto mb-8 shadow-lg border-4 border-white/30" />
           <h1 className="text-4xl font-display font-bold text-primary-foreground mb-4">Creciendo con Catalina</h1>
           <p className="text-primary-foreground/70 text-lg max-w-md">Sistema de gestión de útiles escolares facilitadores para el aprendizaje.</p>
         </motion.div>
@@ -41,7 +40,7 @@ const LoginPage = () => {
       <div className="flex-1 flex items-center justify-center p-8 bg-background">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-md">
           <div className="lg:hidden flex items-center gap-3 mb-8 justify-center">
-            <span className="text-2xl">🌱</span>
+            <img src="/logo.jpeg" alt="Creciendo con Catalina" className="h-10 w-10 rounded-full object-cover shadow-sm border-2 border-primary/20" />
             <span className="text-xl font-display font-bold text-foreground">Creciendo con Catalina</span>
           </div>
 

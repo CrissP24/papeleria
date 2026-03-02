@@ -18,7 +18,7 @@ const LandingPage = () => {
       <header className="bg-card border-b sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🌱</span>
+            <img src="/logo.jpeg" alt="Creciendo con Catalina" className="h-10 w-10 rounded-full object-cover shadow-sm border-2 border-primary/20" />
             <span className="font-display font-bold text-foreground text-lg">Creciendo con Catalina</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
@@ -47,10 +47,10 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6 text-sm text-primary-foreground/90">
-              <span>🌸</span> Papelería escolar con propósito
+              <img src="/logo.jpeg" alt="" className="w-5 h-5 rounded-full" /> Papelería escolar con propósito
             </div>
             <h1 className="text-4xl lg:text-5xl font-display font-bold text-primary-foreground leading-tight">
-              Útiles escolares que acompañan el aprendizaje 🌱
+              Útiles escolares que acompañan el <span className="underline decoration-white/40 decoration-wavy underline-offset-8">aprendizaje</span>
             </h1>
             <p className="mt-6 text-lg text-primary-foreground/70">
               Nace un nuevo espacio pensado con amor y propósito: <strong>Creciendo con Catalina</strong>. 
@@ -125,6 +125,9 @@ const LandingPage = () => {
             <div className="gradient-primary rounded-3xl p-8 text-center relative overflow-hidden">
               <div className="absolute top-3 right-3 text-2xl opacity-20">🌸</div>
               <div className="absolute bottom-3 left-3 text-2xl opacity-20">✨</div>
+              <div className="flex justify-center mb-6">
+                <img src="/logo.jpeg" alt="Creciendo con Catalina" className="w-24 h-24 rounded-full object-cover shadow-lg border-4 border-white/30" />
+              </div>
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <p className="text-4xl font-display font-bold text-accent">🌱</p>
@@ -201,7 +204,11 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="bg-muted py-8 border-t">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-sm text-muted-foreground">🌸 © 2026 Creciendo con Catalina. Todos los derechos reservados. 🌸</p>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <img src="/logo.jpeg" alt="" className="w-6 h-6 rounded-full object-cover" />
+            <span className="font-display font-semibold text-sm text-foreground">Creciendo con Catalina</span>
+          </div>
+          <p className="text-xs text-muted-foreground">© 2026 Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>
