@@ -4,8 +4,8 @@ import { getUsers, getSession, setSession, clearSession, initializeData } from '
 
 interface AuthContextType {
   user: AuthUser | null;
-  login: (email: string, password: string) => string | null;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<string | null>;
+  logout: () => Promise<void>;
   isLoading: boolean;
 }
 
@@ -16,27 +16,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    initializeData();
-    const session = getSession();
-    if (session) {
-      const { password, ...authUser } = session;
-      setUser(authUser);
-    }
-    setIsLoading(false);
+    const loadSession = async () => {
+      await initializeData();
+      const session = await getSession();
+      if (session) {
+        const { password, ...authUser } = session;
+        setUser(authUser);
+      }
+      setIsLoading(false);
+    };
+    loadSession();
   }, []);
 
-  const login = (email: string, password: string): string | null => {
-    const users = getUsers();
+  const login = async (email: string, password: string): Promise<string | null> => {
+    const users = await getUsers();
     const found = users.find(u => u.email === email && u.password === password);
     if (!found) return 'Credenciales inválidas';
-    setSession(found);
+    await setSession(found);
     const { password: _, ...authUser } = found;
     setUser(authUser);
     return null;
   };
 
-  const logout = () => {
-    clearSession();
+  const logout = async () => {
+    await clearSession();
     setUser(null);
   };
 

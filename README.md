@@ -10,6 +10,7 @@ Sistema web integral para la gestión de productos, usuarios y catálogo de úti
 - **Sistema de Autenticación**: Multi-rol con permisos diferenciados (Admin, Vendedor, Comprador)
 - **Panel de Administración**: Gestión completa de productos, categorías, marcas y usuarios
 - **Panel de Vendedor**: Acceso a catálogo y gestión de ventas
+- **Base de Datos SQLite**: Persistencia de datos con SQLite para almacenamiento local
 - **Diseño Responsive**: Interfaz adaptable a dispositivos móviles, tablets y desktop
 - **Integración WhatsApp**: Contacto directo para consultas sobre productos
 - **Interfaz Moderna**: Diseño profesional con animaciones y transiciones suaves
@@ -19,6 +20,7 @@ Sistema web integral para la gestión de productos, usuarios y catálogo de úti
 - **Frontend Framework**: React 18 con TypeScript
 - **Build Tool**: Vite
 - **Routing**: React Router DOM v6
+- **Database**: SQLite en el navegador con sql.js (WebAssembly)
 - **UI Components**: shadcn/ui + Radix UI
 - **Styling**: Tailwind CSS
 - **State Management**: React Context API + TanStack Query
@@ -71,6 +73,19 @@ http://localhost:5173
   "test:watch": "Ejecuta los tests en modo watch"
 }
 ```
+
+## 💾 Base de Datos
+
+Este proyecto utiliza SQLite en el navegador mediante sql.js (SQLite compilado a WebAssembly). La base de datos se almacena automáticamente en localStorage y se carga al iniciar la aplicación.
+
+### Características de la Base de Datos
+
+- Persistencia automática en localStorage
+- SQLite completo funcionando en el navegador
+- Sin necesidad de servidor backend
+- Datos iniciales precargados (usuarios, productos, categorías, marcas)
+
+Para más detalles sobre la base de datos, consulta [DATABASE.md](./DATABASE.md).
 
 ## 🗂️ Estructura del Proyecto
 
