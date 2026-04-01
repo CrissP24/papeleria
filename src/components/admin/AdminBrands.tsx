@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Brand } from '@/types';
-import { getBrands, addBrand, updateBrand, deleteBrand, generateId } from '@/services/storage';
+import { useBrands } from '@/hooks/useDatabase';
+import { generateId } from '@/services/storage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,13 +10,10 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const AdminBrands = () => {
-  const [items, setItems] = useState<Brand[]>([]);
+  const { brands: items, loading, addBrand, updateBrand, deleteBrand } = useBrands();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Brand | null>(null);
   const [name, setName] = useState('');
-
-  const reload = () => setItems(getBrands());
-  useEffect(() => { reload(); }, []);
 
   const handleOpen = (item?: Brand) => {
     if (item) { setEditing(item); setName(item.name); }
@@ -23,12 +21,27 @@ const AdminBrands = () => {
     setOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!name.trim()) return;
-    if (editing) updateBrand({ ...editing, name });
-    else addBrand({ id: generateId(), name });
-    setOpen(false); reload();
+    if (editing) {
+      await updateBrand({ ...editing, name });
+    } else {
+      await addBrand({ id: generateId(), name });
+    }
+    setOpen(false);
   };
+
+  const handleDelete = async (id: string) => {
+    await deleteBrand(id);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-muted-foreground">Cargando marcas...</div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -53,7 +66,7 @@ const AdminBrands = () => {
             <span className="font-medium text-foreground text-sm">{item.name}</span>
             <div className="flex gap-1">
               <Button variant="ghost" size="icon" onClick={() => handleOpen(item)}><Pencil className="w-4 h-4" /></Button>
-              <Button variant="ghost" size="icon" onClick={() => { deleteBrand(item.id); reload(); }} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+              <Button variant="ghost" size="icon" onClick={() => handleDelete(item.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
             </div>
           </motion.div>
         ))}

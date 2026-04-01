@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Category } from '@/types';
-import { getCategories, addCategory, updateCategory, deleteCategory, generateId } from '@/services/storage';
+import { useCategories } from '@/hooks/useDatabase';
+import { generateId } from '@/services/storage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,13 +10,10 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const AdminCategories = () => {
-  const [items, setItems] = useState<Category[]>([]);
+  const { categories: items, loading, addCategory, updateCategory, deleteCategory } = useCategories();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Category | null>(null);
   const [name, setName] = useState('');
-
-  const reload = () => setItems(getCategories());
-  useEffect(() => { reload(); }, []);
 
   const handleOpen = (item?: Category) => {
     if (item) { setEditing(item); setName(item.name); }
@@ -23,12 +21,27 @@ const AdminCategories = () => {
     setOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!name.trim()) return;
-    if (editing) updateCategory({ ...editing, name });
-    else addCategory({ id: generateId(), name });
-    setOpen(false); reload();
+    if (editing) {
+      await updateCategory({ ...editing, name });
+    } else {
+      await addCategory({ id: generateId(), name });
+    }
+    setOpen(false);
   };
+
+  const handleDelete = async (id: string) => {
+    await deleteCategory(id);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-muted-foreground">Cargando categorías...</div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -53,7 +66,7 @@ const AdminCategories = () => {
             <span className="font-medium text-foreground text-sm">{item.name}</span>
             <div className="flex gap-1">
               <Button variant="ghost" size="icon" onClick={() => handleOpen(item)}><Pencil className="w-4 h-4" /></Button>
-              <Button variant="ghost" size="icon" onClick={() => { deleteCategory(item.id); reload(); }} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+              <Button variant="ghost" size="icon" onClick={() => handleDelete(item.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
             </div>
           </motion.div>
         ))}

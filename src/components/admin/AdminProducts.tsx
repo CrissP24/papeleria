@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Product } from '@/types';
-import { getProducts, addProduct, updateProduct, deleteProduct, getCategories, getBrands, generateId } from '@/services/storage';
+import { useProducts, useCategories, useBrands } from '@/hooks/useDatabase';
+import { generateId } from '@/services/storage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -37,17 +38,15 @@ const compressImage = (file: File, maxW = 800, maxH = 600, quality = 0.75): Prom
   });
 
 const AdminProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { products, loading, addProduct, updateProduct, deleteProduct } = useProducts();
+  const { categories } = useCategories();
+  const { brands } = useBrands();
+  
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [imageMode, setImageMode] = useState<'file' | 'url'>('file');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const categories = getCategories();
-  const brands = getBrands();
-
-  const reload = () => setProducts(getProducts());
-  useEffect(() => { reload(); }, []);
 
   const handleOpen = (p?: Product) => {
     if (p) {
@@ -78,16 +77,30 @@ const AdminProducts = () => {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.name || !form.categoryId || !form.brandId) return;
-    if (editing) updateProduct({ ...editing, ...form });
-    else addProduct({ id: generateId(), ...form });
-    setOpen(false); reload();
+    if (editing) {
+      await updateProduct({ ...editing, ...form });
+    } else {
+      await addProduct({ id: generateId(), ...form });
+    }
+    setOpen(false);
   };
 
-  const handleDelete = (id: string) => { deleteProduct(id); reload(); };
+  const handleDelete = async (id: string) => {
+    await deleteProduct(id);
+  };
+
   const catName = (id: string) => categories.find(c => c.id === id)?.name || '-';
   const brandName = (id: string) => brands.find(b => b.id === id)?.name || '-';
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-muted-foreground">Cargando productos...</div>
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { User, UserRole } from '@/types';
-import { getUsers, addUser, updateUser, deleteUser, generateId } from '@/services/storage';
+import { useUsers } from '@/hooks/useDatabase';
+import { generateId } from '@/services/storage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,13 +11,10 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const AdminUsers = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const { users, loading, addUser, updateUser, deleteUser } = useUsers();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<User | null>(null);
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'comprador' as UserRole });
-
-  const reload = () => setUsers(getUsers());
-  useEffect(() => { reload(); }, []);
 
   const resetForm = () => { setForm({ name: '', email: '', password: '', role: 'comprador' }); setEditing(null); };
 
@@ -26,14 +24,28 @@ const AdminUsers = () => {
     setOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.name || !form.email || !form.password) return;
-    if (editing) { updateUser({ ...editing, ...form }); }
-    else { addUser({ id: generateId(), ...form }); }
-    setOpen(false); resetForm(); reload();
+    if (editing) {
+      await updateUser({ ...editing, ...form });
+    } else {
+      await addUser({ id: generateId(), ...form });
+    }
+    setOpen(false);
+    resetForm();
   };
 
-  const handleDelete = (id: string) => { deleteUser(id); reload(); };
+  const handleDelete = async (id: string) => {
+    await deleteUser(id);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-muted-foreground">Cargando usuarios...</div>
+      </div>
+    );
+  }
 
   return (
     <div>
