@@ -61,6 +61,7 @@ async function createTables() {
       description TEXT NOT NULL,
       image TEXT NOT NULL,
       brandId TEXT NOT NULL,
+      price REAL,
       FOREIGN KEY (categoryId) REFERENCES categories(id),
       FOREIGN KEY (brandId) REFERENCES brands(id)
     );
@@ -143,7 +144,8 @@ export async function getProducts(): Promise<Product[]> {
     categoryId: row[2] as string,
     description: row[3] as string,
     image: row[4] as string,
-    brandId: row[5] as string
+    brandId: row[5] as string,
+    price: row[6] as number | undefined
   }));
 }
 
@@ -151,9 +153,9 @@ export async function saveProducts(products: Product[]) {
   const database = await getDatabase();
   database.run('DELETE FROM products');
   
-  const stmt = database.prepare('INSERT INTO products (id, name, categoryId, description, image, brandId) VALUES (?, ?, ?, ?, ?, ?)');
+  const stmt = database.prepare('INSERT INTO products (id, name, categoryId, description, image, brandId, price) VALUES (?, ?, ?, ?, ?, ?, ?)');
   for (const product of products) {
-    stmt.run([product.id, product.name, product.categoryId, product.description, product.image, product.brandId]);
+    stmt.run([product.id, product.name, product.categoryId, product.description, product.image, product.brandId, product.price || null]);
   }
   stmt.free();
   
@@ -163,8 +165,8 @@ export async function saveProducts(products: Product[]) {
 export async function addProduct(product: Product) {
   const database = await getDatabase();
   database.run(
-    'INSERT INTO products (id, name, categoryId, description, image, brandId) VALUES (?, ?, ?, ?, ?, ?)',
-    [product.id, product.name, product.categoryId, product.description, product.image, product.brandId]
+    'INSERT INTO products (id, name, categoryId, description, image, brandId, price) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [product.id, product.name, product.categoryId, product.description, product.image, product.brandId, product.price || null]
   );
   saveDatabase();
 }
@@ -172,8 +174,8 @@ export async function addProduct(product: Product) {
 export async function updateProduct(product: Product) {
   const database = await getDatabase();
   database.run(
-    'UPDATE products SET name = ?, categoryId = ?, description = ?, image = ?, brandId = ? WHERE id = ?',
-    [product.name, product.categoryId, product.description, product.image, product.brandId, product.id]
+    'UPDATE products SET name = ?, categoryId = ?, description = ?, image = ?, brandId = ?, price = ? WHERE id = ?',
+    [product.name, product.categoryId, product.description, product.image, product.brandId, product.price || null, product.id]
   );
   saveDatabase();
 }

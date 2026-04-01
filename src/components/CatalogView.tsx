@@ -66,6 +66,7 @@ const CatalogView = () => {
             <div className="p-4">
               <h3 className="font-semibold text-foreground text-sm line-clamp-1">{p.name}</h3>
               <p className="text-xs text-muted-foreground mt-1">{catName(p.categoryId)} · {brandName(p.brandId)}</p>
+              {p.price && <p className="text-lg font-bold text-primary mt-2">${p.price.toFixed(2)}</p>}
               <a href={buildWhatsAppUrl(p, categories, brands)} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
                 className="mt-3 flex items-center justify-center gap-2 w-full py-2 rounded-xl text-xs font-semibold bg-success text-success-foreground hover:opacity-90 transition-opacity">
                 <MessageCircle className="w-3.5 h-3.5" /> Consultar por WhatsApp
@@ -89,6 +90,7 @@ const CatalogView = () => {
                 </div>
                 <div className="space-y-2">
                   <p className="text-sm text-foreground">{selectedProduct.description}</p>
+                  {selectedProduct.price && <p className="text-2xl font-bold text-primary mt-2">${selectedProduct.price.toFixed(2)}</p>}
                   <p className="text-xs text-muted-foreground"><strong>Categoría:</strong> {catName(selectedProduct.categoryId)}</p>
                   <p className="text-xs text-muted-foreground"><strong>Marca:</strong> {brandName(selectedProduct.brandId)}</p>
                 </div>

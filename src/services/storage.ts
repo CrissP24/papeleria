@@ -1,23 +1,19 @@
-// Re-export all functions from database.ts for backward compatibility
+// Re-export all functions from supabase-storage.ts
 export {
   generateId,
   getUsers,
-  saveUsers,
   addUser,
   updateUser,
   deleteUser,
   getProducts,
-  saveProducts,
   addProduct,
   updateProduct,
   deleteProduct,
   getCategories,
-  saveCategories,
   addCategory,
   updateCategory,
   deleteCategory,
   getBrands,
-  saveBrands,
   addBrand,
   updateBrand,
   deleteBrand,
@@ -25,4 +21,8 @@ export {
   setSession,
   clearSession,
   initDatabase as initializeData,
-} from './database';
+  saveUsers,
+  saveProducts,
+  saveCategories,
+  saveBrands,
+} from './supabase-storage';

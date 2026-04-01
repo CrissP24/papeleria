@@ -25,6 +25,7 @@ export interface Product {
   description: string;
   image: string;
   brandId: string;
+  price?: number;
 }
 
 export type AuthUser = Omit<User, 'password'>;

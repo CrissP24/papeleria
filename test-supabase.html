@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Supabase Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test de Conexión Supabase</h1>
+        <div id="status"></div>
+        <div>
+            <button onclick="testConnection()">Probar Conexión</button>
+            <button onclick="testTables()">Verificar Tablas</button>
+            <button onclick="testInsert()">Probar Inserción</button>
+        </div>
+        <div id="results"></div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const SUPABASE_URL = 'https://gpnablxgbcpvsvudnwjm.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwbmFibHhnYmNwdnN2dWRud2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU3NzE2NzAsImV4cCI6MjA1MTM0NzY3MH0.vw-9SpxOc1rYRAHUj2ocEQ_B3aXr1RK';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        window.testConnection = async function() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            
+            statusDiv.innerHTML = '<div class="info">🔄 Probando conexión...</div>';
+            resultsDiv.innerHTML = '';
+
+            try {
+                const { data, error } = await supabase.from('users').select('count');
+                
+                if (error) {
+                    statusDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+                    resultsDiv.innerHTML = `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+                } else {
+                    statusDiv.innerHTML = '<div class="success">✅ Conexión exitosa!</div>';
+                    resultsDiv.innerHTML = `<pre>Respuesta: ${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (err) {
+                statusDiv.innerHTML = `<div class="error">❌ Error de conexión: ${err.message}</div>`;
+                resultsDiv.innerHTML = `<pre>${err.stack}</pre>`;
+            }
+        };
+
+        window.testTables = async function() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            
+            statusDiv.innerHTML = '<div class="info">🔄 Verificando tablas...</div>';
+            resultsDiv.innerHTML = '';
+
+            const tables = ['users', 'categories', 'brands', 'products'];
+            const results = {};
+
+            for (const table of tables) {
+                try {
+                    const { data, error } = await supabase.from(table).select('*').limit(1);
+                    results[table] = error ? `❌ ${error.message}` : `✅ OK (${data?.length || 0} registros)`;
+                } catch (err) {
+                    results[table] = `❌ ${err.message}`;
+                }
+            }
+
+            const allOk = Object.values(results).every(r => r.startsWith('✅'));
+            
+            if (allOk) {
+                statusDiv.innerHTML = '<div class="success">✅ Todas las tablas existen!</div>';
+            } else {
+                statusDiv.innerHTML = '<div class="error">❌ Algunas tablas faltan o tienen errores</div>';
+            }
+            
+            resultsDiv.innerHTML = `<pre>${JSON.stringify(results, null, 2)}</pre>`;
+        };
+
+        window.testInsert = async function() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            
+            statusDiv.innerHTML = '<div class="info">🔄 Probando inserción...</div>';
+            resultsDiv.innerHTML = '';
+
+            try {
+                const testCategory = {
+                    id: 'test_' + Date.now(),
+                    name: 'Categoría de Prueba'
+                };
+
+                const { data, error } = await supabase
+                    .from('categories')
+                    .insert([testCategory])
+                    .select();
+
+                if (error) {
+                    statusDiv.innerHTML = `<div class="error">❌ Error al insertar: ${error.message}</div>`;
+                    resultsDiv.innerHTML = `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+                } else {
+                    statusDiv.innerHTML = '<div class="success">✅ Inserción exitosa!</div>';
+                    resultsDiv.innerHTML = `<pre>Datos insertados: ${JSON.stringify(data, null, 2)}</pre>`;
+                    
+                    // Limpiar
+                    await supabase.from('categories').delete().eq('id', testCategory.id);
+                }
+            } catch (err) {
+                statusDiv.innerHTML = `<div class="error">❌ Error: ${err.message}</div>`;
+                resultsDiv.innerHTML = `<pre>${err.stack}</pre>`;
+            }
+        };
+
+        // Auto-test on load
+        window.addEventListener('load', () => {
+            testConnection();
+        });
+    </script>
+</body>
+</html>

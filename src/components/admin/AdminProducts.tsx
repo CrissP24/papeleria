@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Plus, Pencil, Trash2, Upload, ImageIcon, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const emptyForm = { name: '', categoryId: '', description: '', image: '', brandId: '' };
+const emptyForm = { name: '', categoryId: '', description: '', image: '', brandId: '', price: '' };
 
 /** Comprime y redimensiona una imagen antes de guardarla como base64 */
 const compressImage = (file: File, maxW = 800, maxH = 600, quality = 0.75): Promise<string> =>
@@ -51,7 +51,7 @@ const AdminProducts = () => {
   const handleOpen = (p?: Product) => {
     if (p) {
       setEditing(p);
-      setForm({ name: p.name, categoryId: p.categoryId, description: p.description, image: p.image, brandId: p.brandId });
+      setForm({ name: p.name, categoryId: p.categoryId, description: p.description, image: p.image, brandId: p.brandId, price: p.price?.toString() || '' });
       setImageMode(p.image.startsWith('data:') || p.image.startsWith('/') ? 'file' : 'url');
     } else {
       setEditing(null);
@@ -79,10 +79,14 @@ const AdminProducts = () => {
 
   const handleSave = async () => {
     if (!form.name || !form.categoryId || !form.brandId) return;
+    const productData = {
+      ...form,
+      price: form.price ? parseFloat(form.price) : undefined
+    };
     if (editing) {
-      await updateProduct({ ...editing, ...form });
+      await updateProduct({ ...editing, ...productData });
     } else {
-      await addProduct({ id: generateId(), ...form });
+      await addProduct({ id: generateId(), ...productData });
     }
     setOpen(false);
   };
@@ -128,6 +132,7 @@ const AdminProducts = () => {
                   <SelectContent>{brands.map(b => <SelectItem key={b.id} value={b.id}>{b.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
+              <div><Label>Precio (opcional)</Label><Input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} placeholder="0.00" className="mt-1" /></div>
               <div><Label>Descripción</Label><Textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="mt-1" rows={3} /></div>
 
               {/* Imagen: subida de archivo o URL */}

@@ -12,8 +12,10 @@ dist
 dist-ssr
 *.local
 
-# SQL.js WASM file (copied automatically from node_modules)
-public/sql-wasm.wasm
+# Environment variables
+.env
+.env.local
+.env.production
 
 # Editor directories and files
 .vscode/*
