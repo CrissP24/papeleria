@@ -5,17 +5,19 @@
 ### 1. Preparar el Proyecto
 
 ```bash
-# Asegúrate de que el archivo WASM está copiado
+# Asegúrate de que los archivos WASM están copiados
 npm run copy-wasm
 
-# Verifica que existe
+# Verifica que AMBOS archivos existen
 ls public/sql-wasm.wasm
+ls public/sql-wasm-browser.wasm
 
 # Haz un build de prueba
 npm run build
 
-# Verifica que está en dist
+# Verifica que AMBOS están en dist
 ls dist/sql-wasm.wasm
+ls dist/sql-wasm-browser.wasm
 ```
 
 ### 2. Commit y Push
@@ -66,8 +68,10 @@ Una vez desplegado, verifica:
 - [ ] `npm install` ejecutado
 - [ ] `npm run copy-wasm` ejecutado
 - [ ] Archivo `public/sql-wasm.wasm` existe
+- [ ] Archivo `public/sql-wasm-browser.wasm` existe
 - [ ] `npm run build` funciona sin errores
 - [ ] Archivo `dist/sql-wasm.wasm` existe
+- [ ] Archivo `dist/sql-wasm-browser.wasm` existe
 - [ ] Archivo `vercel.json` está en la raíz
 - [ ] Cambios commiteados y pusheados
 
@@ -114,12 +118,13 @@ git push
 ```
 proyecto/
 ├── public/
-│   └── sql-wasm.wasm          ← Debe existir
+│   ├── sql-wasm.wasm              ← Debe existir
+│   └── sql-wasm-browser.wasm      ← Debe existir
 ├── scripts/
-│   └── copy-wasm.js           ← Script de copia
-├── vercel.json                ← Configuración de Vercel
-├── package.json               ← Scripts configurados
-└── vite.config.ts             ← Plugin de copia
+│   └── copy-wasm.js               ← Script de copia
+├── vercel.json                    ← Configuración de Vercel
+├── package.json                   ← Scripts configurados
+└── vite.config.ts                 ← Plugin de copia
 ```
 
 ## 🎯 Comandos Útiles
