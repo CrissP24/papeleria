@@ -145,11 +145,23 @@ npm run build
 
 Los archivos compilados se generarán en la carpeta `dist/`.
 
-### Opciones de Hosting
-- Vercel
-- Netlify
-- GitHub Pages
-- Cualquier hosting estático
+### Despliegue en Vercel (Recomendado)
+
+1. Conecta tu repositorio a Vercel
+2. Vercel detectará automáticamente la configuración
+3. El archivo `vercel.json` ya está configurado
+4. Despliega automáticamente con cada push
+
+Ver [DEPLOYMENT.md](./DEPLOYMENT.md) para instrucciones detalladas y otros servicios de hosting.
+
+### Archivo WASM Importante
+
+El archivo `sql-wasm.wasm` se copia automáticamente durante el build. Si tienes problemas:
+
+```sh
+npm run copy-wasm
+npm run build
+```
 
 ## 🔐 Configuración de Seguridad
 
