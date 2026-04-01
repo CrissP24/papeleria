@@ -1,6 +1,6 @@
 import React from 'react';
 import { LayoutDashboard, Users, Package, Tags, Award } from 'lucide-react';
-import { getUsers, getProducts, getCategories, getBrands } from '@/services/storage';
+import { useUsers, useProducts, useCategories, useBrands } from '@/hooks/useDatabase';
 import { motion } from 'framer-motion';
 
 const navItems = [
@@ -23,14 +23,31 @@ const StatCard = ({ title, value, icon, color }: { title: string; value: number;
   </motion.div>
 );
 
-const AdminDashboard = () => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    <StatCard title="Productos" value={getProducts().length} icon={<Package className="w-6 h-6 text-accent-foreground" />} color="gradient-accent" />
-    <StatCard title="Usuarios" value={getUsers().length} icon={<Users className="w-6 h-6 text-primary-foreground" />} color="gradient-primary" />
-    <StatCard title="Categorías" value={getCategories().length} icon={<Tags className="w-6 h-6 text-accent-foreground" />} color="gradient-accent" />
-    <StatCard title="Marcas" value={getBrands().length} icon={<Award className="w-6 h-6 text-primary-foreground" />} color="gradient-primary" />
-  </div>
-);
+const AdminDashboard = () => {
+  const { products, loading: loadingProducts } = useProducts();
+  const { users, loading: loadingUsers } = useUsers();
+  const { categories, loading: loadingCategories } = useCategories();
+  const { brands, loading: loadingBrands } = useBrands();
+
+  const loading = loadingProducts || loadingUsers || loadingCategories || loadingBrands;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-muted-foreground">Cargando estadísticas...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <StatCard title="Productos" value={products.length} icon={<Package className="w-6 h-6 text-accent-foreground" />} color="gradient-accent" />
+      <StatCard title="Usuarios" value={users.length} icon={<Users className="w-6 h-6 text-primary-foreground" />} color="gradient-primary" />
+      <StatCard title="Categorías" value={categories.length} icon={<Tags className="w-6 h-6 text-accent-foreground" />} color="gradient-accent" />
+      <StatCard title="Marcas" value={brands.length} icon={<Award className="w-6 h-6 text-primary-foreground" />} color="gradient-primary" />
+    </div>
+  );
+};
 
 export { navItems };
 export default AdminDashboard;

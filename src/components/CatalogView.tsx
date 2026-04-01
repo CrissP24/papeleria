@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { getProducts, getCategories, getBrands } from '@/services/storage';
+import { useProducts, useCategories, useBrands } from '@/hooks/useDatabase';
 import { buildWhatsAppUrl } from '@/utils/whatsapp';
 import { Search, Filter, MessageCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -13,9 +13,12 @@ const CatalogView = () => {
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const products = getProducts();
-  const categories = getCategories();
-  const brands = getBrands();
+  
+  const { products, loading: loadingProducts } = useProducts();
+  const { categories, loading: loadingCategories } = useCategories();
+  const { brands, loading: loadingBrands } = useBrands();
+
+  const loading = loadingProducts || loadingCategories || loadingBrands;
 
   const filtered = useMemo(() => {
     return products.filter(p => {
@@ -27,6 +30,14 @@ const CatalogView = () => {
 
   const catName = (id: string) => categories.find(c => c.id === id)?.name || '-';
   const brandName = (id: string) => brands.find(b => b.id === id)?.name || '-';
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-muted-foreground">Cargando productos...</div>
+      </div>
+    );
+  }
 
   return (
     <div>
